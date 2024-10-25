@@ -35,9 +35,14 @@ public class VideoService : IVideoService
         this.logger = logger;
     }
 
-    public async Task StreamVideoAsync(string videoName, string partName)
+    public async Task<byte[]> StreamVideoBytesAsync(string videoName, string partName)
     {
-        throw new NotImplementedException();
+        string path = $"{VIDEO_PATH}\\converted\\{videoName}\\{partName}";
+        if(!File.Exists(path)) {
+            throw new AppException(ErrorCodes.E101);
+        }
+
+        return await File.ReadAllBytesAsync(path);
     }
 
     public async Task UploadVideoAsync()
@@ -48,7 +53,7 @@ public class VideoService : IVideoService
                 HostUrl = HOST_URL,
                 InputPath = $"{VIDEO_PATH}\\{videoName}",
                 OutputPath = $"{VIDEO_PATH}\\converted",
-                Codec = HLSCodec.HLS_1080P 
+                Codec = HLSCodec.HLS_480P 
             }
         );
         throw new NotImplementedException();

@@ -15,6 +15,10 @@ public static class ErrorCodes
     #endregion
 
     #region 100 - System Exceptions
+
+    // Video does not exist
+    public static readonly ErrorCode E101 = new ErrorCode("E101", "Video does not exist.");
+
     #endregion
 
     #region 200 - Client Exceptions

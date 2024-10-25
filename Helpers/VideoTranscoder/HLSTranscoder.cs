@@ -35,7 +35,7 @@ public class HLSTranscoder(string FFMPEG_PATH) : IVideoTranscoder
 
         string[] arguments = [
             $"-i \"{hlsProps.InputPath}\"", // Input path
-            String.Format(FFMPEG_ARGUMENTS[hlsProps.Codec], $"\"{hlsProps.HostUrl}/Video/{fileName}/stream/\""), // Codec arguments
+            String.Format(FFMPEG_ARGUMENTS[hlsProps.Codec], $"\"{hlsProps.HostUrl}/Video/{fileName}/\""), // Codec arguments
             $"\"{fullOutputPath}\\{newFileName}\"" // Output path
         ];
         StringBuilder sb = new StringBuilder();

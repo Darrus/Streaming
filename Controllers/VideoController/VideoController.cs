@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Streaming.Constants;
+using Streaming.Models.Response;
 using Streaming.Services;
 
 namespace Streaming.Controllers;
@@ -12,21 +14,22 @@ public class VideoController(ILogger<VideoController> logger, IVideoService vide
     }
 
     [HttpGet("{videoName}")]
-    public async Task<ActionResult> GetVideoAsync(string videoName)
+    public async Task<ActionResult<ResponseVideoDetail>> GetVideoAsync(string videoName)
     {
-        throw new NotImplementedException();
+        return new ResponseVideoDetail{Name = "video.mp4", StreamFileName = "video.m3u8"};
     }
 
-    [HttpGet("{videoName}/stream/{partName}")]
-    public async Task<ActionResult> StreamVideoAsync(string videoName, string partName)
+    [HttpGet("{videoName}/{partName}")]
+    public async Task<FileContentResult> StreamVideoAsync(string videoName, string partName)
     {
-        throw new NotImplementedException();
+        byte[] fileBytes = await videoService.StreamVideoBytesAsync(videoName, partName);
+        return File(fileBytes, "video/mp4", partName);
     }
 
     [HttpPost]
-    public async Task<ActionResult> UploadVideo()
+    public async Task<ActionResult> UploadVideoAsync()
     {
         await videoService.UploadVideoAsync();
-        throw new NotImplementedException();
+        return Ok();
     }
 }

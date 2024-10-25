@@ -1,0 +1,14 @@
+{
+    "dotnet.defaultSolution": "Streaming.sln",
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "on",
+        "strings": "off"
+    },
+    "editor.tabCompletion": "on",
+    "files.exclude": {
+        "**/.git": true,
+        "**/bin": true,
+        "**/obj": true
+    }
+}

@@ -1,5 +1,3 @@
 /bin
 /obj
-
-
-*.mp4
+/Assets/**

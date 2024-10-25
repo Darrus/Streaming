@@ -1,5 +1,3 @@
-using Streaming.Models;
-
 namespace Streaming.Exceptions;
 
 public class AppException : Exception

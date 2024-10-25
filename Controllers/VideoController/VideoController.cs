@@ -8,22 +8,25 @@ public class VideoController(ILogger<VideoController> logger, IVideoService vide
     [HttpGet]
     public async Task<ActionResult> GetVideosAsync()
     {
-        logger.LogInformation("GetVideosAsync");
-        return Ok();
+        throw new NotImplementedException();
     }
 
     [HttpGet("{videoName}")]
     public async Task<ActionResult> GetVideoAsync(string videoName)
     {
-        logger.LogInformation("GetVideoAsync");
-        return Ok();
+        throw new NotImplementedException();
     }
 
-    [HttpGet("{videoName}/stream")]
-    public async Task<ActionResult> StreamVideoAsync(string videoName)
+    [HttpGet("{videoName}/stream/{partName}")]
+    public async Task<ActionResult> StreamVideoAsync(string videoName, string partName)
     {
-        logger.LogInformation("StreamVideoAsync");
-        await videoService.StreamVideoAsync();
-        return Ok();
+        throw new NotImplementedException();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> UploadVideo()
+    {
+        await videoService.UploadVideoAsync();
+        throw new NotImplementedException();
     }
 }

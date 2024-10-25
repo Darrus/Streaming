@@ -1,4 +1,3 @@
-using Streaming.Helpers;
 using Streaming.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IVideoTranscoder, VideoTranscoder>();
 builder.Services.AddScoped<IVideoService, VideoService>();
 builder.Services.AddControllers();
 

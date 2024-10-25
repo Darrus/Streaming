@@ -2,5 +2,6 @@ namespace Streaming.Services;
 
 public interface IVideoService
 {
-    public Task StreamVideoAsync();
+    public Task UploadVideoAsync();
+    public Task StreamVideoAsync(string videoName, string partName);
 }

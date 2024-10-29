@@ -14,11 +14,6 @@ public class VideoService : IVideoService
 
     public VideoService(ILogger<VideoService> logger, IConfiguration configuration)
     {
-        string? ffmpegPath = configuration.GetValue<string>("FFMPEG_PATH");
-        if(String.IsNullOrEmpty(ffmpegPath)) {
-            throw new AppException(ErrorCodes.E001);
-        }
-
         string? assetsPath = configuration.GetValue<string>("ASSETS_PATH");
         if(String.IsNullOrEmpty(assetsPath)) {
             throw new AppException(ErrorCodes.E002);
@@ -31,7 +26,7 @@ public class VideoService : IVideoService
 
         HOST_URL = hostUrl;
         VIDEO_PATH = $"{assetsPath}\\Videos";
-        transcoder = new HLSTranscoder(ffmpegPath);
+        transcoder = new HLSTranscoder();
         this.logger = logger;
     }
 
@@ -47,15 +42,17 @@ public class VideoService : IVideoService
 
     public async Task UploadVideoAsync()
     {
+        // TODO: Remove temporary variable
         string videoName = "video.mp4";
+        string streamUrl = $"{HOST_URL}/Video/{videoName}/";
+
         await transcoder.TranscodeVideoAsync(
             new HLSTranscoderProperties{
-                HostUrl = HOST_URL,
+                StreamUrl = streamUrl,
                 InputPath = $"{VIDEO_PATH}\\{videoName}",
                 OutputPath = $"{VIDEO_PATH}\\converted",
-                Codec = HLSCodec.HLS_480P 
+                Codec = HLSCodec.HLS_ADAPTIVE 
             }
         );
-        throw new NotImplementedException();
     }
 }

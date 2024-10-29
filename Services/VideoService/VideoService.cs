@@ -44,11 +44,9 @@ public class VideoService : IVideoService
     {
         // TODO: Remove temporary variable
         string videoName = "video.mp4";
-        string streamUrl = $"{HOST_URL}/Video/{videoName}/";
 
         await transcoder.TranscodeVideoAsync(
             new HLSTranscoderProperties{
-                StreamUrl = streamUrl,
                 InputPath = $"{VIDEO_PATH}\\{videoName}",
                 OutputPath = $"{VIDEO_PATH}\\converted",
                 Codec = HLSCodec.HLS_ADAPTIVE 

@@ -74,7 +74,8 @@ public class HLSTranscoder() : IVideoTranscoder
         "-c:a:0 aac -b:a:0 96k -ac 2" // HLSCodec.HLS_1080P
     ];
 
-    readonly string HLS_ARGUMENTS = "-hls_time 10 -hls_list_size 0 -f hls -hls_base_url \"{0}\"";
+    // -hls_base_url is optional, hls.js is smart enough to grab based on the same url as the m3u8
+    readonly string HLS_ARGUMENTS = "-hls_time 10 -hls_list_size 0 -f hls";
     readonly string HLS_ADAPTIVE_ARGUMENTS = "-hls_time 10 -hls_list_size 0 -f hls -master_pl_name {0}.m3u8 -var_stream_map \"v:0,a:0 v:1,a:1 v:2,a:2\" {1}_%v.m3u8";
 
     public async Task TranscodeVideoAsync(VideoTranscoderProperties properties)
@@ -99,7 +100,7 @@ public class HLSTranscoder() : IVideoTranscoder
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = "C:\\Tools\\ffmpeg\\bin\\ffmpeg.exe",
+                FileName = "ffmpeg",
                 Arguments = arguments,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -139,6 +140,7 @@ public class HLSTranscoder() : IVideoTranscoder
                 arguments.Add($"-map \"[{varOut[i]}]\" {VIDEO_ENCODING_ARGUMENTS[i].Replace("v:0", $"v:{i}")}");
             }
 
+            // a:0 is actually short for 0:a:0 where [input_file_index]:[stream_type]:[stream_index]
             for(int i = 0; i < AUDIO_ENCODING_ARGUMENTS.Length; ++i) {
                 arguments.Add($"-map a:0 {AUDIO_ENCODING_ARGUMENTS[i].Replace("a:0", $"a:{i}")}");
             }
@@ -149,8 +151,8 @@ public class HLSTranscoder() : IVideoTranscoder
             arguments.Add($"-vf \"{SCALE_ARGUMENTS[codecIndex]}\"");
             arguments.Add(VIDEO_ENCODING_ARGUMENTS[codecIndex]);
             arguments.Add(AUDIO_ENCODING_ARGUMENTS[codecIndex]);
-            arguments.Add(String.Format(HLS_ARGUMENTS, hlsProps.StreamUrl));
-            arguments.Add($"\"{fullOutputPath}\\{fileNameWithoutExtension}\"");
+            arguments.Add(HLS_ARGUMENTS);
+            arguments.Add($"\"{fullOutputPath}\\{fileNameWithoutExtension}.m3u8\"");
         }
 
         StringBuilder sb = new StringBuilder();
